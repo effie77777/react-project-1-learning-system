@@ -1,0 +1,24 @@
+a, input, button, textarea, select {
+    border-radius: 0% !important;
+}
+
+section {
+    padding: 3rem 1.5rem;
+    margin-bottom: 1rem;
+    @include sm {
+        padding: 3rem;
+    }
+    
+    h3 {
+        margin-bottom: 2rem;    
+        font-weight: bold;
+        @include sm {
+            margin-bottom: 2.5rem;
+        }
+    }
+}
+
+ul, li {
+    list-style-type: none;
+    padding: 0;
+}

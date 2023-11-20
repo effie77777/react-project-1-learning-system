@@ -1,0 +1,8 @@
+.nav-item {
+    &:hover {
+        background-color: rgb(104, 104, 104);
+        a {
+            color: white !important;
+        }
+    }
+}
