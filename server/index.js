@@ -7,6 +7,7 @@ require("./config/passport");
 const cors = require("cors");
 const authRoute = require("./routes").authRoute; //不用再寫/index
 const courseRoute = require("./routes").courseRoute;
+// const port = process.env.port || 3001;
 
 //db
 mongoose.connect(process.env.DB_CONNECT)
@@ -25,5 +26,5 @@ app.use("/api/user", authRoute);
 app.use("/api/course", passport.authenticate("jwt", { session: false }), courseRoute);
 
 app.listen(8000, () => {
-    console.log("server listening on port 8000.");
+    console.log("server listening on port 8000");
 })

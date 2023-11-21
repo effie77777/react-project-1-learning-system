@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "http://localhost:8000/api/course";
+const API_URL = "https://react-project-1-learning-system.onrender.com";
 
 class CourseService {
     //講師自己開設的全部課程
