@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./components/Home";
 import Register from "./components/Register";
@@ -21,12 +21,12 @@ const App = () => {
   const [ myJourney, setMyJourney] = useState([]);
 
   return (
-    <div>
+    <HashRouter>
       <Nav currentUser = { currentUser } setCurrentUser = { setCurrentUser } setCourseData = { setCourseData } setMyFavorite = { setMyFavorite } setMyJourney = { setMyJourney } />
       <Routes>
-        <Route exact path = "/react-project-1-learning-system/" element = { <Home /> }></Route>
-        <Route exact path = "/react-project-1-learning-system/register" element = { <Register /> }></Route>
-        <Route path = "/react-project-1-learning-system/login" element = { <Login setCurrentUser = { setCurrentUser } /> }></Route>
+        <Route path = "/" element = { <Home /> }></Route>
+        <Route path = "/register" element = { <Register /> }></Route>
+        <Route path = "/login" element = { <Login setCurrentUser = { setCurrentUser } /> }></Route>
         <Route exact path = "/profile" element = { <Profile currentUser = { currentUser } setCourseData = { setCourseData } setMyFavorite = { setMyFavorite } setAllCourses = { setAllCourses } myJourney = { myJourney } setMyJourney = { setMyJourney } />}></Route>
         <Route exact path = "/course" element = { <Course currentUser = { currentUser } courseData = { courseData } setCourseData = { setCourseData } setCurrentEdited = { setCurrentEdited } myFavorite = { myFavorite } setMyFavorite = { setMyFavorite } allCourses = { allCourses } /> }></Route>
         <Route exact path = "/postCourse" element = { <PostCourse currentUser = { currentUser} /> }></Route>
@@ -34,7 +34,7 @@ const App = () => {
         <Route exact path = "/search" element = { <Search currentUser = { currentUser } courseData = { courseData } setCourseData = { setCourseData } myFavorite = { myFavorite } setMyFavorite = { setMyFavorite } allCourses = { allCourses } setAllCourses = { setAllCourses } /> }></Route>
         <Route exact path = "/postJourney" element = { <PostJourney currentUser = { currentUser } courseData = { courseData } setCourseData = { setCourseData } myJourney = { myJourney } setMyJourney = { setMyJourney } /> }></Route>
       </Routes>
-    </div>
+    </HashRouter>
   )
 }
 
