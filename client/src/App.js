@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./components/Home";
 import Register from "./components/Register";
@@ -21,7 +21,7 @@ const App = () => {
   const [ myJourney, setMyJourney] = useState([]);
 
   return (
-    <HashRouter>
+    <div>
       <Nav currentUser = { currentUser } setCurrentUser = { setCurrentUser } setCourseData = { setCourseData } setMyFavorite = { setMyFavorite } setMyJourney = { setMyJourney } />
       <Routes>
         <Route path = "/" element = { <Home /> }></Route>
@@ -34,7 +34,7 @@ const App = () => {
         <Route exact path = "/search" element = { <Search currentUser = { currentUser } courseData = { courseData } setCourseData = { setCourseData } myFavorite = { myFavorite } setMyFavorite = { setMyFavorite } allCourses = { allCourses } setAllCourses = { setAllCourses } /> }></Route>
         <Route exact path = "/postJourney" element = { <PostJourney currentUser = { currentUser } courseData = { courseData } setCourseData = { setCourseData } myJourney = { myJourney } setMyJourney = { setMyJourney } /> }></Route>
       </Routes>
-    </HashRouter>
+    </div>
   )
 }
 
