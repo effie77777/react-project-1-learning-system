@@ -24,7 +24,7 @@ const App = () => {
     <div>
       <Nav currentUser = { currentUser } setCurrentUser = { setCurrentUser } setCourseData = { setCourseData } setMyFavorite = { setMyFavorite } setMyJourney = { setMyJourney } />
       <Routes>
-        <Route exact path = "/" element = { <Home /> }></Route>
+        <Route exact path = "/react-project-1-learning-system/" element = { <Home /> }></Route>
         <Route exact path = "/register" element = { <Register /> }></Route>
         <Route exact path = "/login" element = { <Login setCurrentUser = { setCurrentUser } /> }></Route>
         <Route exact path = "/profile" element = { <Profile currentUser = { currentUser } setCourseData = { setCourseData } setMyFavorite = { setMyFavorite } setAllCourses = { setAllCourses } myJourney = { myJourney } setMyJourney = { setMyJourney } />}></Route>
