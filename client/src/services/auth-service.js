@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "http://localhost:8000/api/user";
+const API_URL = "https://react-project-1-learning-system.onrender.com";
 
 class AuthService {
     login(email, password) {
