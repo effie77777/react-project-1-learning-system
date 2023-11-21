@@ -23,10 +23,10 @@ const App = () => {
   return (
     <div>
       <Nav currentUser = { currentUser } setCurrentUser = { setCurrentUser } setCourseData = { setCourseData } setMyFavorite = { setMyFavorite } setMyJourney = { setMyJourney } />
-      <Routes>
-        <Route exact path = "/react-project-1-learning-system/" element = { <Home /> }></Route>
+      <Routes basename = "/react-project-1-learning-system">
+        <Route path = "/" element = { <Home /> }></Route>
         <Route exact path = "/register" element = { <Register /> }></Route>
-        <Route exact path = "/login" element = { <Login setCurrentUser = { setCurrentUser } /> }></Route>
+        <Route path = "/login" element = { <Login setCurrentUser = { setCurrentUser } /> }></Route>
         <Route exact path = "/profile" element = { <Profile currentUser = { currentUser } setCourseData = { setCourseData } setMyFavorite = { setMyFavorite } setAllCourses = { setAllCourses } myJourney = { myJourney } setMyJourney = { setMyJourney } />}></Route>
         <Route exact path = "/course" element = { <Course currentUser = { currentUser } courseData = { courseData } setCourseData = { setCourseData } setCurrentEdited = { setCurrentEdited } myFavorite = { myFavorite } setMyFavorite = { setMyFavorite } allCourses = { allCourses } /> }></Route>
         <Route exact path = "/postCourse" element = { <PostCourse currentUser = { currentUser} /> }></Route>
