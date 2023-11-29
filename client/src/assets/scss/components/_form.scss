@@ -1,0 +1,34 @@
+.custom-form-style {
+    p {
+        margin-bottom: 0;
+    }
+    label {
+        margin-bottom: 0.25rem;
+        font-weight: bold;
+        >span {
+            margin-left: 0.1rem;
+            color: red;
+        }
+    }
+    input, textarea {
+        padding: 0.5rem 1rem;
+        margin-bottom: 0.25rem;
+    }
+    select {
+        padding: 0.65rem 1rem;
+    }
+}
+
+.word-count {
+    margin-bottom: 0;
+    >span {
+        margin: 0 0.25rem;
+    }
+}
+
+#price:invalid {
+    border-color: red;
+    & + div >.d-none {
+        display: flex !important;
+    }
+}

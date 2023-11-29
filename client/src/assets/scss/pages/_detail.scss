@@ -1,0 +1,21 @@
+.remove-li-bottom-border {
+    li:last-child {
+        border: none !important;
+    }
+}
+
+.course-video {
+    width: 100%;
+    max-width: 516px;
+    @include sm {
+        width: 75%;
+    }
+}
+
+.course-video-btn {
+    width: 100%;
+    max-width: 173px;
+    @include sm {
+        width: 25%;
+    }
+}

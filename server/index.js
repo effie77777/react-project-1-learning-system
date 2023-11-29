@@ -7,7 +7,7 @@ require("./config/passport");
 const cors = require("cors");
 const authRoute = require("./routes").authRoute; //不用再寫/index
 const courseRoute = require("./routes").courseRoute;
-// const port = process.env.port || 3001;
+const Course = require("./models/index").courseModel;
 
 //db
 mongoose.connect(process.env.DB_CONNECT)

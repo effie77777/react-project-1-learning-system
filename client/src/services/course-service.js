@@ -204,5 +204,5 @@ class CourseService {
     }
 }
 
-const NewCourseService = new CourseService;
+const NewCourseService = new CourseService();
 export default NewCourseService;

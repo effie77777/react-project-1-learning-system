@@ -1,0 +1,67 @@
+.card {
+    border-radius: 0% !important;
+    height: 420px;
+    @include md {
+        height: 390px;
+    }
+}
+
+.card-header {
+    height: 18%;
+    background-color: white;
+    border-radius: 0% !important;
+    display: flex;
+    >h4 {
+        margin-top: 0.2rem;
+        font-weight: bold;
+        font-size: larger;
+        margin-bottom: 0;
+    }
+}
+
+.card-body {
+    @include md {
+        height: 70%;
+    }
+    >p {
+        margin-bottom: 0.5rem;
+        height: 10%;
+        margin-bottom: 5%;
+    }
+    >p:nth-child(2) {
+        height: 55%;
+        @include xs {
+            height: 50%;
+        }
+        @include md {
+            height: 55%;
+        }
+        @include xxl {
+            height: 40%;
+        }
+    }
+}
+
+.card-footer {
+    background-color: white;
+    height: fit-content;
+    border-radius: 0% !important;
+    padding: 0;
+    display: flex;
+    a, button {
+        display: inline-block;
+        padding: 0.75rem 1rem !important;
+        flex-grow: 1;
+    }
+    a, button:first-child {
+        text-align: left !important;
+    }
+    a:last-child {
+        text-align: center;
+    }
+}
+
+.isMyFavorite {
+    font-variation-settings: 'FILL' 1;
+    color: red;
+}

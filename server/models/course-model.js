@@ -13,6 +13,10 @@ const courseSchema = new mongoose.Schema({
         required: true,
         maxLength: 100
     },
+    chapters: {
+        type: Array,
+        required: true,
+    },
     price: {
         type: Number,
         require: true,
@@ -30,7 +34,7 @@ const courseSchema = new mongoose.Schema({
     marked: {
         type: [String],
         default: []
-    } 
+    }
 })
 
 const Course = mongoose.model("Course", courseSchema);

@@ -1,0 +1,55 @@
+.bg-light-primary {
+    background-color: rgb(223, 241, 255) !important;
+}
+
+.text-dark-warning {
+    color: #cd9a00;
+}
+
+.text-dark-gray {
+    color: #727272;
+}
+
+.hover-bg-warning {
+    &:hover {
+        background-color: #f9ba00;
+        border-color: #f9ba00;
+        opacity: 1;
+        color: white;
+        >a {
+            font-weight: bold;
+        }
+    }
+}
+
+.hover-bg-dark-warning {
+    &:hover {
+        background-color: #cd9a00 !important;
+        color: white;
+    }
+}
+
+.hover-bg-primary {
+    &:hover {
+        background-color: #76adff !important;
+        border-color: #76adff !important;
+        opacity: 1;
+        color: white;
+        >a {
+            font-weight: bold;
+        }
+    }
+}
+
+.hover-bg-dark {
+    &:hover {
+        background-color: black;
+        color: white;
+    }
+}
+
+.hover-bg-gray {
+    &:hover {
+        background-color: rgb(233, 233, 233);
+    }
+}
