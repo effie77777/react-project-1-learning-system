@@ -13,22 +13,22 @@ const PostCourse = ({ currentUser }) => {
 
   //將 input 標籤 - title 的內容更新到 State
   const changeTitle = (e) => {
-      setTitle(e.target.value);
-      if (e.target.value.length > 18) {
-        e.target.classList.add("border-danger");
-      } else {
-        e.target.classList.remove("border-danger");
-      }
+    setTitle(e.target.value);
+    if (e.target.value.length > 18) {
+      e.target.classList.add("border-danger");
+    } else {
+      e.target.classList.remove("border-danger");
+    }
   }
 
   //將 input 標籤 - description 的內容更新到 State
   const changeDesciption = (e) => {
-      setDescription(e.target.value);
-      if (e.target.value.length > 60) {
-        e.target.classList.add("border-danger");
-      } else {
-        e.target.classList.remove("border-danger");
-      }
+    setDescription(e.target.value);
+    if (e.target.value.length > 60) {
+      e.target.classList.add("border-danger");
+    } else {
+      e.target.classList.remove("border-danger");
+    }
   }
 
   //將 input 標籤 - chapters 的內容更新到 State
@@ -47,40 +47,29 @@ const PostCourse = ({ currentUser }) => {
 
   //將 input 標籤 - price 的內容更新到 State
   const changePrice = (e) => {
-      setPrice(e.target.value);
-      if (e.target.value < 99 || e.target.value > 5999) {
-        e.target.classList.add("border-danger");
-      } else {
-        e.target.classList.remove("border-danger");
-      }
+    setPrice(e.target.value);
+    if (e.target.value < 99 || e.target.value > 5999) {
+      e.target.classList.add("border-danger");
+    } else {
+      e.target.classList.remove("border-danger");
+    }
   }
 
   //確定新增課程
   const handlePostCourse = () => {
-      let isNotEmpty = false;
-      for (let i = 0; i < chapters.length; i ++) {
-        if (chapters[i].trim().length !== 0) {
-          isNotEmpty = true;
-          break;
-        }
-      }
-      if (!isNotEmpty) {
-        setErrorMsg("「課程章節介紹」請至少填寫一項")
-      } else {
-        let filter = chapters.filter((i) => i.length > 0);
-        NewCourseService.postCourse(title, description, filter, price)
-        .then((d) => {
-            setErrorMsg(null);
-            setSuccessMsg("成功新增課程 ! 將為您導回個人課程頁面");
-            setTimeout(() => {
-              setSuccessMsg(null);
-              Navigate("/coursesList");              
-            }, 2000);
-        })
-        .catch((e) => {
-            setErrorMsg(e.response.data);
-        })
-      }
+    let filter = chapters.filter((i) => i.length > 0);
+    NewCourseService.postCourse(title, description, filter, price)
+    .then((d) => {
+        setErrorMsg(null);
+        setSuccessMsg("成功新增課程 ! 將為您導回個人課程頁面");
+        setTimeout(() => {
+          setSuccessMsg(null);
+          Navigate("/coursesList");              
+        }, 2000);
+    })
+    .catch((e) => {
+        setErrorMsg(e.response.data);
+    })
   }
 
   //取消新增課程
@@ -168,15 +157,11 @@ const PostCourse = ({ currentUser }) => {
                 <ul>
                   {chapters.length > 0 && chapters.map((i, index) =>
                   <li className={`postCourse-li li-${index}`} key={index}>
-                    <label htmlFor={index}>Chapter {index + 1}
-                      {index === 0 &&
-                      <span>*</span>
-                      }
-                    </label>
+                    <label htmlFor={index}>Chapter {index + 1}</label>
                     <input type="text" id={index} name={index} onChange={ changeChapters } />
                   </li>
                   )}
-                  <button type="button" className="btn m-0" style={{background: "#e9ecef", color: "#495057"}} onClick={addAChapter} >新增</button>
+                  <button type="button" className="btn m-0 mb-1" style={{background: "#e9ecef", color: "#495057", width: "5.5rem"}} onClick={addAChapter} >新增</button>
                 </ul>
               </div>
 

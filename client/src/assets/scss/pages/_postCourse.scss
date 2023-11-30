@@ -3,8 +3,9 @@
     label {
         @extend .align-self-center;
         @extend .fw-normal;
+        @extend .flex-shrink-0;
         height: fit-content;
-        width: 6rem;
+        width: 5.5rem;
     }
     input {
         @extend .form-control;

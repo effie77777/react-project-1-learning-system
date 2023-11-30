@@ -203,21 +203,24 @@ router.get("/search/instructor/:_id", async(req, res) => {
 //講師新增課程
 router.post("/post", async(req, res) => {
     let { title, description, chapters, price } = req.body;
-    console.log(chapters);
     if (!req.user.isInstructor()) {
         return res.status(401).send("只有講師能夠新增課程");
     }
-    let result = courseVal(req.body);   
+    let result = courseVal(req.body);
+    console.log(result);
     if (result.error) {
         return res.status(400).send(result.value.error.details[0].message);
-    }
-    let newCourse = new Course({ title, description, chapters, price, instructor: req.user._id });
-    try {
-        await newCourse.save();
-        return res.send("成功新增課程 !");
-    }
-    catch (e) {
-        return res.status(400).send("發生一些錯誤... 課程尚未新增成功");
+    } else if (result === "「課程章節介紹」請至少填寫一項") {
+        return res.status(400).send("「課程章節介紹」請至少填寫一項");
+    } else {
+        let newCourse = new Course({ title, description, chapters, price, instructor: req.user._id });
+        try {
+            await newCourse.save();
+            return res.send("成功新增課程 !");
+        }
+        catch (e) {
+            return res.status(400).send("發生一些錯誤... 課程尚未新增成功");
+        }
     }
 })
 

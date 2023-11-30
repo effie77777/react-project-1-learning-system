@@ -56,7 +56,7 @@ const loginVal = (data) => {
         password: Joi.string().required().min(8).max(1024)
     });
     let result = schema.validate(data);
-    result = translateErrorMsg(result);        
+    result = translateErrorMsg(result);    
     return schema.validate(result);
 }
 
@@ -70,6 +70,17 @@ const courseVal = (data) => {
     })
     let result = schema.validate(data);
     result = translateErrorMsg(result);
+    // isNotEmpty 檢驗 chapters 是否為 empty array
+    let isNotEmpty = false;
+    for (let i = 0; i < data.chapters.length; i ++) {
+        if (data.chapters[i].trim().length !== 0) {
+            isNotEmpty = true;
+            break;
+        }
+    }
+    if (!isNotEmpty) {
+        return "「課程章節介紹」請至少填寫一項";
+    }
     return schema.validate(result);
 }
 
