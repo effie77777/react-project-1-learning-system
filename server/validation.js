@@ -1,5 +1,6 @@
 const Joi = require("joi");
 
+//檢驗註冊
 const registrationVal = (data) => {
     const schema = Joi.object({
         name: Joi.string().required().min(1).max(50),
@@ -48,6 +49,7 @@ const registrationVal = (data) => {
     }    
 }
 
+//檢驗登入
 const loginVal = (data) => {
     const schema = Joi.object({
         email: Joi.string().email().required().min(3).max(50),
@@ -58,10 +60,12 @@ const loginVal = (data) => {
     return schema.validate(result);
 }
 
+//檢驗開設、修改課程
 const courseVal = (data) => {    
     const schema = Joi.object({
         title: Joi.string().required().max(18),
         description: Joi.string().required().max(60),
+        chapters: Joi.array().required(),
         price: Joi.number().required().min(99).max(5999)
     })
     let result = schema.validate(data);
@@ -69,6 +73,7 @@ const courseVal = (data) => {
     return schema.validate(result);
 }
 
+//檢驗新增學習日誌
 const journeyVal = (data) => {
     const schema = Joi.object({
         journeyTitle: Joi.string().required().max(18),
@@ -79,6 +84,7 @@ const journeyVal = (data) => {
     return schema.validate(result);
 }
 
+//將 Joi 的錯誤訊息英翻中
 function translateErrorMsg(result) {
     if (result.error) {
         let errorMsg = "";
@@ -91,6 +97,9 @@ function translateErrorMsg(result) {
                 break;
             case "description":
                 key = "課程簡介";
+                break;
+            case "chapters":
+                key = "章節";
                 break;
             case "price":
                 key = "價格";

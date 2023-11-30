@@ -5,9 +5,8 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 require("./config/passport");
 const cors = require("cors");
-const authRoute = require("./routes").authRoute; //不用再寫/index
+const authRoute = require("./routes").authRoute;
 const courseRoute = require("./routes").courseRoute;
-const Course = require("./models/index").courseModel;
 
 //db
 mongoose.connect(process.env.DB_CONNECT)

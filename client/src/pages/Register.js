@@ -12,15 +12,22 @@ const Register = () => {
   const [ successMsg, setSuccessMsg ] = useState(null);
   const Navigate = useNavigate();
 
+  //將 input 標籤 - name 的內容更新到 State
   const changeName = (e) => {
     setName(e.target.value);
   }
+
+  //將 input 標籤 - email 的內容更新到 State
   const changeEmail = (e) => {
     setEmail(e.target.value);
   }
+
+  //將 input 標籤 - password 的內容更新到 State
   const changePassword = (e) => {
     setPassword(e.target.value);
   }
+
+  //將 input 標籤 - role 的內容更新到 State
   const changeRole = (e) => {
     setRole(e.target.value);
   }

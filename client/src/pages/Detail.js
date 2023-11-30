@@ -7,6 +7,7 @@ const Detail = ({ currentUser, currentSearch, setCurrentSearch }) => {
     const [ errorMsg, setErrorMsg ] = useState(null);
     const [ isPlaying, setIsPlaying ] = useState(false);
 
+    //設定影片狀態為播放或暫停
     const handleChangeVideoStatus = () => {
         const changeStatus = !isPlaying;
         setIsPlaying(changeStatus);
@@ -75,7 +76,7 @@ const Detail = ({ currentUser, currentSearch, setCurrentSearch }) => {
                                 <h4 className="bg-warning bg-opacity-25 text-dark-warning py-3 px-4 fw-bold mb-0">課程大綱</h4>
                                 <ul className="pt-1 mb-3 remove-li-bottom-border">
                                     { currentSearch[0].chapters.map((i, index) =>
-                                        <li className="px-4 py-3 border-bottom border-1" key={index}>{i}</li>
+                                        <li className="px-4 py-3 border-bottom border-1" key={index}>Chapter {index + 1} <span className="d-inline-block mx-2">|</span> {i}</li>
                                     )}
                                 </ul>
                             </div>

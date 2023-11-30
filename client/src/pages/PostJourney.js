@@ -10,6 +10,7 @@ const PostJourney = ({ currentUser, courseData, setCourseData, myJourney, setMyJ
     const [ successMsg, setSuccessMsg ] = useState(null);
     const Navigate = useNavigate();
 
+    //將 input 標籤 - title 的內容更新到 State
     const changeTitle = (e) => {
         setJourneyTitle(e.target.value);
         if (e.target.value.length > 18) {
@@ -18,6 +19,8 @@ const PostJourney = ({ currentUser, courseData, setCourseData, myJourney, setMyJ
           e.target.classList.remove("border-danger");
         }
     }
+
+    //將 input 標籤 - content 的內容更新到 State
     const changeContent = (e) => {
         setJourneyContent(e.target.value);
         if (e.target.value.length > 100) {
@@ -26,11 +29,13 @@ const PostJourney = ({ currentUser, courseData, setCourseData, myJourney, setMyJ
           e.target.classList.remove("border-danger");
         }
     }
+
+    //將 input 標籤 - selectCourse 的內容更新到 State
     const changeSelectCourse = (e) => {
       setSelectCourse(e.target.value);
     }
 
-    //學生確定建立日誌
+    //確定建立日誌
     const handlePostJourney = (e) => {
       e.preventDefault();
       let studentId = currentUser.data._id;
@@ -94,7 +99,7 @@ const PostJourney = ({ currentUser, courseData, setCourseData, myJourney, setMyJ
                 )}
 
                 { currentUser && currentUser.data.role === "講師" && (
-                    <Link className="btn btn-dark fw-bold me-4" to="/course">
+                    <Link className="btn btn-dark fw-bold me-4" to="/coursesList">
                         帶我回我的課程頁面
                     </Link>
                 )}

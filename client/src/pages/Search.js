@@ -8,13 +8,14 @@ const Search = ({ currentUser, courseData, setCourseData, myFavorite, setMyFavor
     const [ searchResult, setSearchResult ] = useState([]);
     const [ errorMsg, setErrorMsg ] = useState(null);
     const [ successMsg1, setSuccessMsg1 ] = useState(null); //在上面區塊
-    const [ successMsg2, setSuccessMsg2 ] = useState(null); //再下面區塊
+    const [ successMsg2, setSuccessMsg2 ] = useState(null); //在下面區塊
     const [ suggestionList, setSuggestionList ] = useState([]);
     const [ previousInput, setPreviousInput ] = useState(""); //用來判斷當 e.target.value 的長度改變時，使用者是新增還是刪除文字
     const [ trimmed, setTrimmed ] = useState(""); //用來篩選 e.target.value 關鍵字，會先過濾掉特殊符號。如果沒有這個 state，而是直接修改 input 的值，會影響到按搜尋按鈕時的準確度
     const suggestionListUl = document.getElementById("suggestion-list-ul");
     const suggestionListItem = document.getElementsByClassName("suggestion-list-item");
 
+    //關鍵字搜尋
     const changeInput = (e) => {
         setInput(e.target.value);
         let regexp = /[^!！@＠#＃\$%％\^︿&＆\*＊(（)）_＿\-－[［\]］+＋\|｜\\＼\/／<＜>＞\.．,，;；'’"＂=＝~～`‵}｝˙˙。 　]/;
@@ -102,7 +103,7 @@ const Search = ({ currentUser, courseData, setCourseData, myFavorite, setMyFavor
         }
     }
 
-    //透過點選搜尋按鈕來搜尋
+    //透過點選搜尋按鈕來搜尋課程
     const handleSearch = (e) => {
         e.preventDefault();
         let data = allCourses.filter((i) => i.title === input);
@@ -117,7 +118,7 @@ const Search = ({ currentUser, courseData, setCourseData, myFavorite, setMyFavor
         }
     }
 
-    //透過點選 suggestionList 來搜尋
+    //透過點選 suggestionList 來搜尋課程
     const handleSearchById = (e) => {
         e.preventDefault();
         let data = allCourses.filter((i) => i._id === e.target.id);
@@ -277,7 +278,7 @@ const Search = ({ currentUser, courseData, setCourseData, myFavorite, setMyFavor
                         )}
 
                         { currentUser && currentUser.data.role === "講師" && (
-                            <Link className="btn btn-dark fw-bold me-2" to="/course">
+                            <Link className="btn btn-dark fw-bold me-2" to="/coursesList">
                                 帶我回我的課程頁面
                             </Link>                        
                         )}

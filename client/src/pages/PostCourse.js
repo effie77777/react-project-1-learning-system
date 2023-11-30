@@ -5,13 +5,13 @@ import NewCourseService from "../services/course-service";
 const PostCourse = ({ currentUser }) => {
   const [ title, setTitle ] = useState("");
   const [ description, setDescription ] = useState("");
-  const [ chapters, setChapters ] = useState([]);
-  const [ currentlyModifying, setCurrentlyModifying ] = useState(0);
+  const [ chapters, setChapters ] = useState(["", "", ""]);
   const [ price, setPrice ] = useState(0);
   const [ errorMsg, setErrorMsg ] = useState(null);
   const [ successMsg, setSuccessMsg ] = useState(null);
   const Navigate = useNavigate();
 
+  //將 input 標籤 - title 的內容更新到 State
   const changeTitle = (e) => {
       setTitle(e.target.value);
       if (e.target.value.length > 18) {
@@ -21,6 +21,7 @@ const PostCourse = ({ currentUser }) => {
       }
   }
 
+  //將 input 標籤 - description 的內容更新到 State
   const changeDesciption = (e) => {
       setDescription(e.target.value);
       if (e.target.value.length > 60) {
@@ -30,21 +31,21 @@ const PostCourse = ({ currentUser }) => {
       }
   }
 
+  //將 input 標籤 - chapters 的內容更新到 State
   const changeChapters = (e) => {
-    let key = e.target.id.substring(e.target.id.length - 1);
+    let key = e.target.id;
     let value = e.target.value;
-    let newArr = [];
-    newArr.splice(key, 0, value);
-    console.log(newArr);
+    let newArr = [ ...chapters];
+    newArr.splice(key, 1, value);
+    setChapters(newArr);
   }
 
-  const addAChapter = (e) => {
-    //目前是按了第幾個 chapter 的新增按鈕 (chapter 從 0 開始)
-    let item = Number(e.target.getAttribute("id"));
-    console.log(item);
-    setCurrentlyModifying(item);
+  //新增章節
+  const addAChapter = () => {
+    setChapters([ ...chapters, ""]);
   };
 
+  //將 input 標籤 - price 的內容更新到 State
   const changePrice = (e) => {
       setPrice(e.target.value);
       if (e.target.value < 99 || e.target.value > 5999) {
@@ -54,33 +55,38 @@ const PostCourse = ({ currentUser }) => {
       }
   }
 
+  //確定新增課程
   const handlePostCourse = () => {
-      NewCourseService.postCourse(title, description, price)
-      .then((d) => {
-          setErrorMsg(null);
-          setSuccessMsg("成功新增課程 ! 將為您導回個人課程頁面");
-          setTimeout(() => {
-            setSuccessMsg(null);
-            Navigate("/course");              
-          }, 2000);
-      })
-      .catch((e) => {
-          setErrorMsg(e.response.data);
-      })
+      let isNotEmpty = false;
+      for (let i = 0; i < chapters.length; i ++) {
+        if (chapters[i].trim().length !== 0) {
+          isNotEmpty = true;
+          break;
+        }
+      }
+      if (!isNotEmpty) {
+        setErrorMsg("「課程章節介紹」請至少填寫一項")
+      } else {
+        let filter = chapters.filter((i) => i.length > 0);
+        NewCourseService.postCourse(title, description, filter, price)
+        .then((d) => {
+            setErrorMsg(null);
+            setSuccessMsg("成功新增課程 ! 將為您導回個人課程頁面");
+            setTimeout(() => {
+              setSuccessMsg(null);
+              Navigate("/coursesList");              
+            }, 2000);
+        })
+        .catch((e) => {
+            setErrorMsg(e.response.data);
+        })
+      }
   }
 
+  //取消新增課程
   const handleCancel = () => {
-    Navigate("/course");
+    Navigate("/coursesList");
   }
-
-  useEffect(() => {       
-    let currentParentDiv = document.querySelector(`li.li_${currentlyModifying}`);
-    console.log(currentParentDiv);
-    let newChapterDiv = document.createElement("li");
-    currentParentDiv.insertAdjacentElement("afterend", newChapterDiv);
-    newChapterDiv.classList.add("d-flex", `li_${currentlyModifying + 1}`, "postCourse-li");
-    newChapterDiv.innerHTML = `<label htmlFor=chapter_${currentlyModifying + 2}>` + `Chapter ${currentlyModifying + 2}` + `</label><input type='text' id=chapter_${currentlyModifying + 2} name=chapter_${currentlyModifying + 2} onChange={ changeChapters } /><button type='button' id=${currentlyModifying + 2} onClick={ addAChapter }><span class='material-symbols-outlined' onClick={ addAChapter }>add_circle</span></button>`;
-  }, [currentlyModifying]);
 
   useEffect(() => {
     if (!currentUser) {
@@ -118,7 +124,7 @@ const PostCourse = ({ currentUser }) => {
           )}
 
           { currentUser && currentUser.data.role !== "講師" && (
-            <Link className="btn btn-dark fw-bold me-4" to="/course">
+            <Link className="btn btn-dark fw-bold me-4" to="/coursesList">
               帶我回我的課程頁面
             </Link>
           )}
@@ -158,17 +164,19 @@ const PostCourse = ({ currentUser }) => {
               </div>
 
               <div className="custom-form-style mt-4">
-                <label htmlFor="description">課程章節<span>*</span></label>
+                <label>課程章節介紹<span>*</span></label>
                 <ul>
-                  <li className="d-flex li_0 postCourse-li" key="li_0">
-                    <label htmlFor="chapter_1">Chapter 1</label>
-                    <input type="text" id="chapter_1" name="chapter_1" onChange={ changeChapters } />
-                    <button type="button" id="0" onChange={ addAChapter }>
-                      <span className="material-symbols-outlined" id="0" onClick={ addAChapter }>
-                        add_circle
-                      </span>
-                    </button>
+                  {chapters.length > 0 && chapters.map((i, index) =>
+                  <li className={`postCourse-li li-${index}`} key={index}>
+                    <label htmlFor={index}>Chapter {index + 1}
+                      {index === 0 &&
+                      <span>*</span>
+                      }
+                    </label>
+                    <input type="text" id={index} name={index} onChange={ changeChapters } />
                   </li>
+                  )}
+                  <button type="button" className="btn m-0" style={{background: "#e9ecef", color: "#495057"}} onClick={addAChapter} >新增</button>
                 </ul>
               </div>
 

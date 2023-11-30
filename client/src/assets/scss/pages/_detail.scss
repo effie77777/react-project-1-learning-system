@@ -14,8 +14,8 @@
 
 .course-video-btn {
     width: 100%;
-    max-width: 173px;
     @include sm {
         width: 25%;
+        max-width: 173px;
     }
 }

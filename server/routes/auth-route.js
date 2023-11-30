@@ -4,16 +4,7 @@ const jwt = require("jsonwebtoken");
 const {registrationVal, loginVal} = require("../validation");
 const User = require("../models").userModel;
 
-//middlewares
-router.use((req, res, next) => {
-    console.log("inside auth-route middleware");
-    next();
-})
-
-router.get("/testAPI", (req, res) => {
-    return res.send("test API");
-})
-
+//註冊
 router.post("/register", async(req, res) => {
     let { name, email, password, role } = req.body;
     User.findOne({ email: req.body.email })
@@ -44,6 +35,7 @@ router.post("/register", async(req, res) => {
     })
 })
 
+//登入
 router.post("/login", async(req, res) => {
     let result = loginVal(req.body);
     if (result.error) {

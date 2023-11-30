@@ -2,21 +2,22 @@ import axios from "axios";
 const API_URL = "https://react-project-1-learning-system.onrender.com/api/course";
 
 class CourseService {
-    //講師自己開設的全部課程
-    getCourseList(_id) {
+    //學生註冊課程
+    enrollCourse(courseId, studentId) {
         let token;
         if (localStorage.getItem("user_data")) {
             token = JSON.parse(localStorage.getItem("user_data")).token;
         } else {
             token = "";
         }
-        return axios.get(
-            `${ API_URL }/search/instructor/${ _id }`,
-            { headers: { Authorization: token } }
+        return axios.post(
+            `${ API_URL }/enroll/${ courseId }`,
+            { studentId },
+            { headers: {Authorization: token } }
         );
     }
-
-    //學生自己註冊的全部課程
+    
+    //學生查詢自己註冊的全部課程
     getEnrolledCourse(_id) {
         let token;
         if (localStorage.getItem("user_data")) {
@@ -26,21 +27,6 @@ class CourseService {
         }
         return axios.get(
             `${API_URL}/search/student/${ _id }`,
-            { headers: { Authorization: token } }
-        );
-    }
-
-    //講師新增課程
-    postCourse(title, description, price) {
-        let token;
-        if (localStorage.getItem("user_data")) {
-            token = JSON.parse(localStorage.getItem("user_data")).token;
-        } else {
-            token = "";
-        }
-        return axios.post(
-            `${ API_URL }/post`,
-            { title, description, price },
             { headers: { Authorization: token } }
         );
     }
@@ -73,22 +59,7 @@ class CourseService {
         );
     }    
 
-    //學生註冊課程
-    enrollCourse(courseId, studentId) {
-        let token;
-        if (localStorage.getItem("user_data")) {
-            token = JSON.parse(localStorage.getItem("user_data")).token;
-        } else {
-            token = "";
-        }
-        return axios.post(
-            `${ API_URL }/enroll/${ courseId }`,
-            { studentId },
-            { headers: {Authorization: token } }
-        );
-    }
-
-    //搜尋全部課程
+    //學生搜尋全部課程
     searchAllCourses() {
         let token;
         if (localStorage.getItem("user_data")) {
@@ -98,6 +69,93 @@ class CourseService {
         }
         return axios.get(
             `${ API_URL }/search`,
+            { headers: { Authorization: token } }
+        );
+    }
+    
+    //學生新增學習日誌
+    postJourney(studentId, journeyTitle, journeyContent, selectCourse=null) {
+        let token;
+        if (localStorage.getItem("user_data")) {
+            token = JSON.parse(localStorage.getItem("user_data")).token;
+        } else {
+            token = "";
+        }
+        return axios.post(
+            `${ API_URL }/postJourney/${ studentId }`,
+            { journeyTitle, journeyContent, selectCourse },
+            { headers: { Authorization: token }}
+        )
+    }
+
+    //學生搜尋自己全部的學習日誌
+    getMyJourney(studentId) {
+        let token;
+        if (localStorage.getItem("user_data")) {
+            token = JSON.parse(localStorage.getItem("user_data")).token;
+        } else {
+            token = "";
+        }
+        return axios.get(
+            `${ API_URL }/journey/${ studentId }`,
+            { headers: { Authorization: token} }
+        )
+    }
+
+    //學生更改我的最愛清單，包括新增和移除
+    changeFavorite(studentId, courseId) {
+        let token;
+        if (localStorage.getItem("user_data")) {
+            token = JSON.parse(localStorage.getItem("user_data")).token;
+        } else {
+            token = "";
+        }
+        return axios.post(
+            `${ API_URL }/favorite/${studentId}`,
+            { courseId },
+            { headers: { Authorization: token } }
+        );
+    }
+
+    //學生搜尋全部我的最愛課程
+    getMyFavorite(_id) {
+        let token;
+        if (localStorage.getItem("user_data")) {
+            token = JSON.parse(localStorage.getItem("user_data")).token;
+        } else {
+            token = "";
+        }
+        return axios.get(
+            `${ API_URL }/favorite/${ _id }`,
+            { headers: { Authorization: token } }
+        );
+    }      
+
+    //講師查詢自己開設的全部課程
+    getCourseList(_id) {
+        let token;
+        if (localStorage.getItem("user_data")) {
+            token = JSON.parse(localStorage.getItem("user_data")).token;
+        } else {
+            token = "";
+        }
+        return axios.get(
+            `${ API_URL }/search/instructor/${ _id }`,
+            { headers: { Authorization: token } }
+        );
+    }    
+
+    //講師新增課程
+    postCourse(title, description, chapters, price) {
+        let token;
+        if (localStorage.getItem("user_data")) {
+            token = JSON.parse(localStorage.getItem("user_data")).token;
+        } else {
+            token = "";
+        }
+        return axios.post(
+            `${ API_URL }/post`,
+            { title, description, chapters, price },
             { headers: { Authorization: token } }
         );
     }
@@ -117,7 +175,7 @@ class CourseService {
     }
 
     //講師編輯課程 (將新資料存進 DB )
-    editAndPostCourse(_id, title, description, price) {
+    editAndPostCourse(_id, title, description, chapters, price) {
         let token;
         if (localStorage.getItem("user_data")) {
             token = JSON.parse(localStorage.getItem("user_data")).token;
@@ -126,41 +184,12 @@ class CourseService {
         }
         return axios.post(
             `${ API_URL }/edit/${ _id }`,
-            { title, description, price },
+            { title, description, chapters, price },
             { headers: { Authorization: token } }
         )
     }
 
-    //學生新增學習日誌
-    postJourney(studentId, journeyTitle, journeyContent, selectCourse=null) {
-        let token;
-        if (localStorage.getItem("user_data")) {
-            token = JSON.parse(localStorage.getItem("user_data")).token;
-        } else {
-            token = "";
-        }
-        return axios.post(
-            `${ API_URL }/postJourney/${ studentId }`,
-            { journeyTitle, journeyContent, selectCourse },
-            { headers: { Authorization: token }}
-        )
-    }
-
-    //搜尋學生自己全部的學習日誌
-    getMyJourney(studentId) {
-        let token;
-        if (localStorage.getItem("user_data")) {
-            token = JSON.parse(localStorage.getItem("user_data")).token;
-        } else {
-            token = "";
-        }
-        return axios.get(
-            `${ API_URL }/journey/${ studentId }`,
-            { headers: { Authorization: token} }
-        )
-    }
-
-    //特定講師從學生得到的所有回饋
+    //講師搜尋學生給的回饋
     getStudentsFeedback(_id) {
         let token;
         if (localStorage.getItem("user_data")) {
@@ -170,35 +199,6 @@ class CourseService {
         }
         return axios.get(
             `${ API_URL }/instructor/feedback/${ _id }`,
-            { headers: { Authorization: token } }
-        );
-    }
-
-    //學生更改我的最愛清單，包括新增和移除
-    changeFavorite(studentId, courseId) {
-        let token;
-        if (localStorage.getItem("user_data")) {
-            token = JSON.parse(localStorage.getItem("user_data")).token;
-        } else {
-            token = "";
-        }
-        return axios.post(
-            `${ API_URL }/favorite/${studentId}`,
-            { courseId },
-            { headers: { Authorization: token } }
-        );
-    }
-
-    //搜尋學生全部的我的最愛課程
-    getMyFavorite(_id) {
-        let token;
-        if (localStorage.getItem("user_data")) {
-            token = JSON.parse(localStorage.getItem("user_data")).token;
-        } else {
-            token = "";
-        }
-        return axios.get(
-            `${ API_URL }/favorite/${ _id }`,
             { headers: { Authorization: token } }
         );
     }

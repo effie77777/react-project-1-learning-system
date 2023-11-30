@@ -1,4 +1,5 @@
 .postCourse-li {
+    @extend .d-flex;
     label {
         @extend .align-self-center;
         @extend .fw-normal;

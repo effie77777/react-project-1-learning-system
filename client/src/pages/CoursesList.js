@@ -5,8 +5,18 @@ import NewCourseService from "../services/course-service";
 const CoursesList = ({ currentUser, courseData, setCourseData, setCurrentEdited, myFavorite, setMyFavorite, allCourses, setCurrentSearch }) => {
     const [ errorMsg, setErrorMsg ] = useState(null);
     const [ successMsg, setSuccessMsg ] = useState(null);
-    const Navigate = useNavigate();  
+    const Navigate = useNavigate();
+
+    //控制 alert 開合
     let alert = document.querySelector("#alert-and-btn-div");
+    const handleCloseAlert = (e) => {
+        e.preventDefault();
+        alert.classList.add("d-none");
+    }
+    //如果使用者沒有透過上面的 event handler 關掉 alert，但是他已經有註冊或開設課程的話，那就要移除 alert
+    if (errorMsg && courseData.length > 0) {
+        alert.classList.add("d-none");
+    }
 
     //講師修改課程
     const handleEdit = (e) => {
@@ -21,7 +31,7 @@ const CoursesList = ({ currentUser, courseData, setCourseData, setCurrentEdited,
         })
     }
 
-    // 學生註冊課程
+    //學生註冊課程
     const handleEnroll = (e) => {
         e.preventDefault();
         let courseId = e.target.id;
@@ -50,7 +60,7 @@ const CoursesList = ({ currentUser, courseData, setCourseData, setCurrentEdited,
         })
     }
 
-    //移除我的最愛
+    //學生移除我的最愛
     const removeFromMyFavorite = (e) => {
         e.preventDefault();
         let studentId = currentUser.data._id;
@@ -72,16 +82,6 @@ const CoursesList = ({ currentUser, courseData, setCourseData, setCurrentEdited,
         .catch((e) => {
             console.log(e);
         })
-    }
-
-    const handleCloseAlert = (e) => {
-        e.preventDefault();
-        alert.classList.add("d-none");
-    }
-
-    //如果使用者沒有透過上面的 event handler 關掉 alert，但是他已經有註冊 / 開設課程的話，那就要移除 alert
-    if (errorMsg && courseData.length > 0) {
-        alert.classList.add("d-none");
     }
 
     //學生點選「上課去」按鈕

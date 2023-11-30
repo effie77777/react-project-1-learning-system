@@ -1,18 +1,11 @@
 const express = require("express");
 const router = express.Router();
-
-const User = require("../models").userModel;
 const Course = require("../models").courseModel;
 const Journey = require("../models").journeyModel;
-
 const courseVal = require("../validation").courseVal;
 const journeyVal = require("../validation").journeyVal;
 
-router.use((req, res, next) => {
-    next();
-})
-
-//查詢全部課程
+//學員查詢全部課程
 router.get("/search", (req, res) => {
     Course.find({ }).populate("instructor", ["name", "email"])
     .then((d) => {
@@ -24,7 +17,7 @@ router.get("/search", (req, res) => {
     })
 })
 
-//透過特定課程的名稱，查詢該課程
+//學員透過特定課程的名稱，查詢該課程
 router.get("/searchByTitle/:title", async(req, res) => {
     let { title } = req.params;
     await Course.find({ title }).populate("instructor", ["name", "email"])
@@ -36,7 +29,7 @@ router.get("/searchByTitle/:title", async(req, res) => {
     })
 })
 
-//透過特定課程的 id，查詢該課程
+//學員透過特定課程的 id，查詢該課程
 router.get("/searchById/:_id", async(req, res) => {
     let { _id } = req.params;
     await Course.findOne({ _id }).populate("instructor", ["name", "email"])
@@ -48,7 +41,7 @@ router.get("/searchById/:_id", async(req, res) => {
     })
 })
 
-//透過課程 id 來註冊課程
+//學員透過課程 id 來註冊課程
 router.post("/enroll/:courseId", async(req, res) => {
     let { courseId } = req.params;
     let { studentId } = req.body;
@@ -80,20 +73,7 @@ router.post("/enroll/:courseId", async(req, res) => {
     })
 })
 
-//提供給講師使用，查詢所有自己開設的課程
-router.get("/search/instructor/:_id", async(req, res) => {
-    let { _id } = req.params;
-    await Course.find({ instructor: _id }).populate("instructor", ["name", "email"])
-    .then((d) => {
-        return res.send(d);
-    })
-    .catch((e) => {
-        console.log(e);
-        return res.status(400).send("發生一些問題...");
-    })
-})
-
-//提供給學員使用，查詢所有自己註冊的課程
+//學員查詢所有自己註冊的課程
 router.get("/search/student/:_id", async(req, res) => {
     let { _id } = req.params;
     await Course.find({ students: _id }).populate("instructor", ["name", "email"])
@@ -149,7 +129,7 @@ router.post("/favorite/:studentId", async(req, res) => {
     }
 })
 
-//提供給學員使用，查詢所有自己收藏的課程
+//學員查詢所有自己收藏的課程
 router.get("/favorite/:studentId", async(req, res) => {
     let { studentId } = req.params;
     await Course.find({ marked: studentId }).populate("instructor", ["name", "email"])
@@ -207,24 +187,23 @@ router.get("/journey/:studentId", async(req, res) => {
 
 })
 
-//講師搜尋所有學生給自己的回饋
-router.get("/instructor/feedback/:_id", async(req, res) => {
+//講師查詢所有自己開設的課程
+router.get("/search/instructor/:_id", async(req, res) => {
     let { _id } = req.params;
-    if (!req.user.isInstructor()) {
-        return res.status(401).send("只有講師能查詢學員回饋");
-    }
-    await Journey.find({ instructor: _id }).populate("owner", ["name"])
+    await Course.find({ instructor: _id }).populate("instructor", ["name", "email"])
     .then((d) => {
         return res.send(d);
     })
     .catch((e) => {
         console.log(e);
-        return res.status(400).send(e);
+        return res.status(400).send("發生一些問題...");
     })
 })
 
 //講師新增課程
 router.post("/post", async(req, res) => {
+    let { title, description, chapters, price } = req.body;
+    console.log(chapters);
     if (!req.user.isInstructor()) {
         return res.status(401).send("只有講師能夠新增課程");
     }
@@ -232,8 +211,7 @@ router.post("/post", async(req, res) => {
     if (result.error) {
         return res.status(400).send(result.value.error.details[0].message);
     }
-    let { title, description, price } = req.body;
-    let newCourse = new Course({ title, description, price, instructor: req.user._id });
+    let newCourse = new Course({ title, description, chapters, price, instructor: req.user._id });
     try {
         await newCourse.save();
         return res.send("成功新增課程 !");
@@ -290,28 +268,20 @@ router.post("/edit/:_id", async(req, res) => {
     }
 })
 
-//講師刪除課程
-router.delete("/remove/:_id", async(req, res) => {
+//講師搜尋所有學生給自己的回饋
+router.get("/instructor/feedback/:_id", async(req, res) => {
     let { _id } = req.params;
-    try {
-        let foundCourse = await Course.findOne({ _id });
-        if (!foundCourse) {
-            return res.status(400).send("查無此課程");
-        }
-        if (foundCourse.instructor._id.equals(req.user._id)) {
-            Course.deleteOne({ _id })
-            .then(() => {
-                return res.send({ msg: "成功刪除課程" });
-            })
-            .catch((e) => {
-                return res.status(400).send({ msg: "發生一些錯誤，課程尚未刪除，請稍後再試一次 !", data: e });
-            })        
-        } else {
-            return res.status(401).send("只有這門課程的講師能夠進行刪除");
-        } 
-    } catch (e) {
-        return res.status(400).send({ msg: "發生一些錯誤...", data: e });
+    if (!req.user.isInstructor()) {
+        return res.status(401).send("只有講師能查詢學員回饋");
     }
+    await Journey.find({ instructor: _id }).populate("owner", ["name"])
+    .then((d) => {
+        return res.send(d);
+    })
+    .catch((e) => {
+        console.log(e);
+        return res.status(400).send(e);
+    })
 })
 
 module.exports = router;

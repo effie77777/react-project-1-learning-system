@@ -5,11 +5,13 @@ import NewCourseService from "../services/course-service";
 const EditCourse = ({ currentUser, currentEdited, setCurrentEdited }) => {
     const [ title, setTitle ] = useState("");
     const [ description, setDescription ] = useState("");
+    const [ chapters, setChapters ] = useState([]);
     const [ price, setPrice ] = useState(0);
     const [ errorMsg, setErrorMsg ] = useState(null);
     const [ successMsg, setSuccessMsg ] = useState(null);
     const Navigate = useNavigate();
 
+    //將 input 標籤 - title 的內容更新到 State
     const changeTitle = (e) => {
       setTitle(e.target.value);
       if (e.target.value.length > 18) {
@@ -18,6 +20,8 @@ const EditCourse = ({ currentUser, currentEdited, setCurrentEdited }) => {
         e.target.classList.remove("border-danger");
       }
     }
+
+    //將 input 標籤 - description 的內容更新到 State
     const changeDesciption = (e) => {
       setDescription(e.target.value);
       if (e.target.value.length > 60) {
@@ -26,6 +30,22 @@ const EditCourse = ({ currentUser, currentEdited, setCurrentEdited }) => {
         e.target.classList.remove("border-danger");
       }
     }
+
+    //將 input 標籤 - chapters 的內容更新到 State
+    const changeChapters = (e) => {
+      let key = e.target.id;
+      let value = e.target.value;
+      let newArr = [ ...chapters];
+      newArr.splice(key, 1, value);
+      setChapters(newArr);
+    }
+  
+    //按下新增章節的按鈕
+    const addAChapter = () => {
+      setChapters([ ...chapters, ""]);
+    };
+  
+    //將 input 標籤 - price 的內容更新到 State
     const changePrice = (e) => {
       setPrice(e.target.value);
       if (e.target.value < 99 || e.target.value > 5999) {
@@ -35,28 +55,40 @@ const EditCourse = ({ currentUser, currentEdited, setCurrentEdited }) => {
       }
     }
 
-    //講師確認修改課程
+    //確認修改課程
     const handleEditCourse = () => {
       const courseId = currentEdited.data._id;
-      NewCourseService.editAndPostCourse(courseId, title, description, price)
-      .then((d) => {
-          setErrorMsg(null);
-          setSuccessMsg("成功修改課程 ! 將為您導向個人課程頁面");
-          setTimeout(() => {
-            setCurrentEdited(null);
-            Navigate("/course");              
-          }, 2000);              
-      })
-      .catch((e) => {
-          setErrorMsg(e.response.data);
-          console.log(e);
-      })
+      let isNotEmpty = false; //檢查 chapters 欄位是否為空
+      for (let i = 0; i < chapters.length; i ++) {
+        if (chapters[i].trim().length !== 0) {
+          isNotEmpty = true;
+          break;
+        }
+      }
+      if (!isNotEmpty) {
+        setErrorMsg("「課程章節介紹」請至少填寫一項")
+      } else {
+        let filter = chapters.filter((i) => i.length > 0);
+        NewCourseService.editAndPostCourse(courseId, title, description, filter, price)
+        .then((d) => {
+            setErrorMsg(null);
+            setSuccessMsg("成功修改課程 ! 將為您導向個人課程頁面");
+            setTimeout(() => {
+              setCurrentEdited(null);
+              Navigate("/coursesList");              
+            }, 2000);              
+        })
+        .catch((e) => {
+            setErrorMsg(e.response.data);
+            console.log(e);
+        })
+      }
     }
 
     //取消修改
     const handleCancel = () => {
       setCurrentEdited(null);
-      Navigate("/course");
+      Navigate("/coursesList");
     }
 
     useEffect(() => {
@@ -66,11 +98,12 @@ const EditCourse = ({ currentUser, currentEdited, setCurrentEdited }) => {
         if (!currentEdited) {
           setErrorMsg("請到個人頁面選擇欲編輯的課程");
           setTimeout(() => {
-            Navigate("/course")
+            Navigate("/coursesList")
           }, 2000);
         } else {
           setTitle(currentEdited.data.title);
           setDescription(currentEdited.data.description);
+          setChapters(currentEdited.data.chapters);
           setPrice(currentEdited.data.price);
         }
       }
@@ -132,6 +165,23 @@ const EditCourse = ({ currentUser, currentEdited, setCurrentEdited }) => {
                     </div>
                   )}
                 </div>
+              </div>
+
+              <div className="custom-form-style mt-4">
+                <label>課程章節介紹<span>*</span></label>
+                <ul>
+                  {chapters.length > 0 && chapters.map((i, index) =>
+                  <li className={`postCourse-li li-${index}`} key={index}>
+                    <label htmlFor={index}>Chapter {index + 1}
+                      {index === 0 &&
+                      <span>*</span>
+                      }
+                    </label>
+                    <input type="text" id={index} name={index} onChange={ changeChapters } value={i} />
+                  </li>
+                  )}
+                  <button type="button" className="btn m-0" style={{background: "#e9ecef", color: "#495057"}} onClick={addAChapter} >新增</button>
+                </ul>
               </div>
 
               <div className="custom-form-style mt-4">
