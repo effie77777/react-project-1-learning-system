@@ -27,8 +27,38 @@ React and Bootstrap 5 for Front-end. Node.js for Back-end.
 * Axios
 * bcrypt
 * Joi
-* Json web token
+* Json Web Token
 * Mongoose & Mongo DB
 * Passport
+* SASS 7 + 1 Pattern
 
 ## 資料夾結構 Structure of Folders
+前端:
+* client
+  * assets
+    * scss - scss 程式碼放置處
+    * video - 示範用影片放置處
+  * components - 自訂的 React 元件及共通區塊放置處
+  * pages - React 頁面放置處
+  * service - 介接後端 API 程式碼放置處
+
+後端:
+* server
+  * config - Passport 及 JWT 驗證
+  * models
+  * routes
+ 
+Front-end:
+* client
+  * assets
+    * scss - scss codes
+    * video - demo video
+  * components - customized React components and layouts 
+  * pages - React pages
+  * service - API calls to the back-end
+
+後端:
+* server
+  * config - Passport and JWT authentication 
+  * models
+  * routes
