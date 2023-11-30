@@ -1,0 +1,19 @@
+.postCourse-li {
+    label {
+        @extend .align-self-center;
+        @extend .fw-normal;
+        height: fit-content;
+        width: 6rem;
+    }
+    input {
+        @extend .form-control;
+    }
+    button {
+        @extend .btn;
+        margin-right: "-1rem";
+        color: "#6c757d";
+    }
+    span {
+        color: "#6c757d" !important;
+    }
+}
