@@ -207,7 +207,6 @@ router.post("/post", async(req, res) => {
         return res.status(401).send("只有講師能夠新增課程");
     }
     let result = courseVal(req.body);
-    console.log(result);
     if (result.error) {
         return res.status(400).send(result.value.error.details[0].message);
     } else if (result === "「課程章節介紹」請至少填寫一項") {
@@ -253,15 +252,18 @@ router.post("/edit/:_id", async(req, res) => {
             let result = courseVal(req.body);
             if (result.error) {
                 return res.status(400).send(result.value.error.details[0].message);
+            } else if (result === "「課程章節介紹」請至少填寫一項") {
+                return res.status(400).send("「課程章節介紹」請至少填寫一項");
+            } else {        
+                Course.findOneAndUpdate({ _id }, req.body, { new: true, runValidators: true } )
+                .then((d) => {
+                    return res.send(d);
+                })
+                .catch((e) => {
+                    console.log(e);
+                    return res.status(400).send("對不起，發生一些錯誤，請稍後再試...");
+                })
             }
-            Course.findOneAndUpdate({ _id }, req.body, { new: true, runValidators: true } )
-            .then((d) => {
-                return res.send(d);
-            })
-            .catch((e) => {
-                console.log(e);
-                return res.status(400).send("對不起，發生一些錯誤，請稍後再試...");
-            })
         } else {
             return res.status(401).send("只有這門課程的講師能夠進行修改");
         }
