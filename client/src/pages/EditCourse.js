@@ -165,7 +165,7 @@ const EditCourse = ({ currentUser, currentEdited, setCurrentEdited }) => {
                   <input type="text" id={index} name={index} onChange={ changeChapters } value={i} />
                 </li>
                 )}
-                <button type="button" className="btn m-0" style={{background: "#e9ecef", color: "#495057", width: "5.5rem"}} onClick={addAChapter} >新增</button>
+                <button type="button" className="btn m-0 mb-1" style={{background: "#e9ecef", color: "#495057", width: "5.5rem"}} onClick={addAChapter} >新增</button>
               </ul>
             </div>
 
