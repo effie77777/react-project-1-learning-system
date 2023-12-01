@@ -7,7 +7,7 @@ Learning System is an online platform for instructors to set up courses and stud
 後端: Node.js  
 React and Bootstrap 5 for Front-end. Node.js for Back-end.
 
-## 功能 Functions
+## 功能 Features
 * 註冊、登入、登出
 * 關鍵字搜尋課程
 * (講師) 開設及編輯課程
