@@ -62,3 +62,29 @@ Front-end:
   * config - Passport and JWT authentication 
   * models
   * routes
+
+## 畫面範例 Brief Demo
+<p>學員個人課程頁面 (註冊 + 我的最愛)</p>
+<img
+  src="readme_images/enrolled_and_favorite.png"
+  alt="學員個人課程頁面 (註冊 + 我的最愛)"
+  width="375px">
+
+<p>關鍵字搜尋課程</p>
+<img
+  src="readme_images/關鍵字搜尋功能.png"
+  alt="關鍵字搜尋功能"
+  width="375px">
+
+<p>學員撰寫學習日誌</p>
+<img
+  src="readme_images/journal-student.png"
+  alt="學員撰寫學習日誌"
+  width="375px">
+
+  
+<p>講師獲得學員回饋</p>
+<img
+  src="readme_images/feedback-instructor.png"
+  alt="講師獲得學員回饋"
+  width="375px">
