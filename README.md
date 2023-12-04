@@ -65,18 +65,21 @@ Front-end:
 
 ## 畫面範例 Brief Demo
 <p>學員個人課程頁面 (註冊 + 我的最愛)</p>
+<p>For students: enroll courses & mark as favorite</p>
 <img
   src="readme_images/enrolled_and_favorite.png"
   alt="學員個人課程頁面 (註冊 + 我的最愛)"
   width="375px">
 
 <p>關鍵字搜尋課程</p>
+<p>For students: search courses with keywords</p>
 <img
   src="readme_images/關鍵字搜尋功能.png"
   alt="關鍵字搜尋功能"
   width="375px">
 
 <p>學員撰寫學習日誌</p>
+<p>For students: write learning journeys</p>
 <img
   src="readme_images/journal-student.png"
   alt="學員撰寫學習日誌"
@@ -84,6 +87,7 @@ Front-end:
 
   
 <p>講師獲得學員回饋</p>
+<p>For instructors: receive feedbacks from students</p>
 <img
   src="readme_images/feedback-instructor.png"
   alt="講師獲得學員回饋"
