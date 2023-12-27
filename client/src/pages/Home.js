@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
+
+  // 因為 server 太久沒有接受到請求會自動暫時關閉，再次開啟會需要一些時間，就會發生 lag 的情況。所以當使用者進到首頁就先送一個請求給 server
+  useEffect(() => {
+    const url = "https://react-project-1-learning-system.onrender.com/";
+    axios.get(url);
+  }, []);
 
     return (
         <main>

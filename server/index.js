@@ -24,6 +24,10 @@ app.use(cors());
 app.use("/api/user", authRoute);
 app.use("/api/course", passport.authenticate("jwt", { session: false }), courseRoute);
 
+app.get("/", (req, res) => {
+    console.log("a request to homepage");
+})
+
 app.listen(8000, () => {
     console.log("server listening on port 8000");
 })
